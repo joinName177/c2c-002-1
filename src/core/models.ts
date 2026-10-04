@@ -1,9 +1,14 @@
 export type Emotion = '愤怒' | '平静' | '喜悦' | '忧伤' | '焦虑';
 export type GrowthStage = '种子' | '发芽' | '开花' | '结果';
+export type GoalType = 'daily' | 'emotion';
+export type AttemptStatus = 'active' | 'completed' | 'interrupted';
 
 export interface EmotionEntry { id: string; date: string; emotion: Emotion; note: string; intensity: number; }
 export interface Plant { id: string; emotion: Emotion; plantedAt: string; lastWatered: string; streak: number; stage: GrowthStage; status: '繁茂' | '枯萎'; entryIds: string[]; }
-export interface GardenSnapshot { entries: EmotionEntry[]; plants: Plant[]; }
+export interface Goal { id: string; type: GoalType; emotion?: Emotion; targetDays: number; title: string; createdAt: string; }
+export interface GoalAttempt { id: string; goalId: string; cycle: number; startDate: string; status: AttemptStatus; progressDays: number; endDate?: string; }
+export interface Achievement { id: string; goalId: string; title: string; type: GoalType; emotion?: Emotion; cycle: number; targetDays: number; date: string; }
+export interface GardenSnapshot { entries: EmotionEntry[]; plants: Plant[]; goals: Goal[]; attempts: GoalAttempt[]; achievements: Achievement[]; }
 
 export const EMOTIONS: Emotion[] = ['愤怒', '平静', '喜悦', '忧伤', '焦虑'];
 export const EMOTION_META: Record<Emotion, { plant: string; symbol: string; color: string; hint: string }> = {
